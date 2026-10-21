@@ -1,0 +1,64 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-sizing: border-box;
+    max-width: 640px;
+    min-height: 660px;
+    margin: 30px auto;
+    background: #e9ede7;
+    border: 2px solid brown;
+    border-radius: 18px;
+    padding: 50px;
+}
+
+h1 {
+    font-family: "Caveat Brush", cursive;
+    font-size: 60px;
+    margin: 0;
+}
+label{
+    font-size: large;
+    font-weight: bold;
+}
+form {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.inputText {
+    position: relative;
+    flex: 1;
+}
+
+.inputText input {
+    padding-right: 40px;
+    width: 100%;
+    border: 2px solid saddlebrown;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: large;
+    background: #D7E6CF;
+    box-sizing: border-box;
+    display: block;
+}
+
+.inputText .clear {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+}
+
+.addBtn{
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: large;
+    background: brown;
+    color: white;
+    border: none;
+    padding: 2px 20px 2px 20px;
+}
