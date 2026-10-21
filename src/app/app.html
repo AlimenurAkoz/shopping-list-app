@@ -16,6 +16,12 @@
     <p>Eksik Yok</p>
   </div>
   }@else{
+  <div class="search">
+    <input type="text" id="searchProduct" [(ngModel)]="searchProduct" placeholder="Ürün listede var mı?"/>
+    @if (searchProduct){
+      <button type="button" class="clear" (click)="searchProduct=''">x</button>
+    }
+  </div>
   <table>
     <tr>
       <th>Sıra</th>
@@ -23,7 +29,7 @@
       <th>Adet</th>
       <th> @if(isOpen) { Seç} @else {Sil}</th>
     </tr>
-    @for (product of products; track product.id){
+    @for (product of filterProducts(); track product.id){
     <tr>
       <td>{{ product.id }}</td>
       <td>{{ product.productName }}</td>
@@ -43,6 +49,11 @@
         }
       </td>
     </tr>
+    }
+    @empty{
+      <tr>
+        <td colspan="4">Ürün alışveriş bistenizde bulunmuyor.</td>
+      </tr>
     }
   </table>
   <div class="lower-part">

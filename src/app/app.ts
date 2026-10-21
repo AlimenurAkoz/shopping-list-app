@@ -15,6 +15,7 @@ export class App {
   products: Product[] = [];
   counter: number = 1;
   isOpen = false;
+  searchProduct = '';
   clean() {
     this.objectName = '';
   }
@@ -86,5 +87,10 @@ export class App {
       this.products.length = 0;
       this.counter = 1;
     }
+  }
+
+  filterProducts(): Product[] {
+    const searchText = this.searchProduct.trim().toLocaleLowerCase('tr');
+    return this.products.filter(p => p.productName.toLocaleLowerCase('tr').includes(searchText));  
   }
 }

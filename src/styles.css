@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 body {
     margin: 0px;
-    background: #D7E6CF;
+    background-image: url("/background.png");
     font-family: "Caveat", cursive;
     color: brown;
 }
+    
