@@ -17,22 +17,24 @@ h1 {
     font-size: 60px;
     margin: 0;
 }
-label{
+
+label {
     font-size: large;
     font-weight: bold;
 }
+
 form {
     display: flex;
     gap: 8px;
     align-items: stretch;
 }
 
-.inputText {
+.input-text {
     position: relative;
     flex: 1;
 }
 
-.inputText input {
+.input-text input {
     padding-right: 40px;
     width: 100%;
     border: 2px solid saddlebrown;
@@ -43,8 +45,11 @@ form {
     box-sizing: border-box;
     display: block;
 }
+.input-text input:hover{
+    border-color: rgb(118, 22, 22);
+}
 
-.inputText .clear {
+.input-text .clear {
     position: absolute;
     right: 15px;
     top: 50%;
@@ -53,7 +58,7 @@ form {
     background: transparent;
 }
 
-.addBtn{
+.add-btn {
     border-radius: 10px;
     font-family: inherit;
     font-size: large;
@@ -61,4 +66,90 @@ form {
     color: white;
     border: none;
     padding: 2px 20px 2px 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 20px;
+}
+
+.empty-basket {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.empty-basket p {
+    margin: 0;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.array-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
+}
+
+.operation{
+    width: 20px;
+    height: 20px;
+    border-radius: 20%;
+    border: 1px solid brown;
+    color: brown;
+    background: #D7E6CF;
+    font-weight: bold;
+    font-family: inherit;
+    padding: 0;
+}
+
+.operation:hover {
+    color: #D7E6CF;
+    background: brown;
+}
+
+.delete-btn {
+    color: transparent;
+    background: transparent;
+    border: none;
+    text-shadow: 0 0 0 brown;
+    font-size: 20px;
+}
+
+th,td {
+    padding: 8px;
+}
+
+.lower-part{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lower{
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: large;
+    background: brown;
+    color: white;
+    border: none;
+    padding: 2px 20px 2px 20px;
+}
+.select-btn{
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: medium;
+    background: brown;
+    color: white;
+    border: none;
+    padding: 2px 20px 2px 20px;
+}
+
+input[type="checkbox"]{
+    accent-color: brown;
 }

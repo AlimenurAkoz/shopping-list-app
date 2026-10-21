@@ -1,13 +1,56 @@
 <div class="page">
   <h1>Alışveriş Listem</h1>
   <label for="objectName">Eksik ne var?</label>
-  <form>
-    <div class="inputText">
+  <form (ngSubmit)="add()">
+    <div class="input-text">
       <input type="text" id="objectName" [(ngModel)]="objectName" name="objectName" placeholder="Ürün adını giriniz" />
       @if (objectName){
       <button type="button" class="clear" name="clear" (click)="clean()">x</button>
       }
     </div>
-    <button class="addBtn" type="submit" name="addbtn">Ekle</button>
+    <button class="add-btn" type="submit" name="addbtn">Ekle</button>
   </form>
+  @if (products.length == 0){
+  <div class="empty-basket">
+    <img src="basket.png" alt="empty-basket">
+    <p>Eksik Yok</p>
+  </div>
+  }@else{
+  <table>
+    <tr>
+      <th>Sıra</th>
+      <th>Ürün</th>
+      <th>Adet</th>
+      <th> @if(isOpen) { Seç} @else {Sil}</th>
+    </tr>
+    @for (product of products; track product.id){
+    <tr>
+      <td>{{ product.id }}</td>
+      <td>{{ product.productName }}</td>
+      <td>
+        <div class="array-btn">
+          <button class="operation" [disabled]="product.quantity == 1" type="button"
+            (click)="decrease(product)">−</button>
+          {{ product.quantity}}
+          <button class="operation" type="button" (click)="increase(product)">+</button>
+        </div>
+      </td>
+      <td>
+        @if (isOpen){
+        <input type="checkbox" [(ngModel)]="product.selected">
+        }@else {
+        <button class="delete-btn" type="button" (click)="delete(product)">🗑️</button>
+        }
+      </td>
+    </tr>
+    }
+  </table>
+  <div class="lower-part">
+    <button class="select-btn" type="button" (click)="openClose()">Seç</button>
+    <p class="lower">Toplam Ürün Adedi: {{totalQuantity()}}</p>
+    <button class="lower" type="button" [disabled]="isOpen && !isSelected()" (click)="clearList()">
+      @if(isOpen) { Seçilenleri Sil} @else {Listeyi Temizle}
+    </button>
+  </div>
+  }
 </div>
