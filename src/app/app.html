@@ -17,7 +17,7 @@
   </div>
   }@else{
   <div class="search">
-    <input type="text" id="searchProduct" [(ngModel)]="searchProduct" placeholder="Ürün listede var mı?"/>
+    <input [disabled]="isOpen" type="text" id="searchProduct" [(ngModel)]="searchProduct" placeholder="Ürün listede var mı?"/>
     @if (searchProduct){
       <button type="button" class="clear" (click)="searchProduct=''">x</button>
     }
@@ -52,12 +52,12 @@
     }
     @empty{
       <tr>
-        <td colspan="4">Ürün alışveriş bistenizde bulunmuyor.</td>
+        <td colspan="4">Ürün alışveriş listenizde bulunmuyor.</td>
       </tr>
     }
   </table>
   <div class="lower-part">
-    <button class="select-btn" type="button" (click)="openClose()">Seç</button>
+    <button class="select-btn" type="button" (click)="openClose()">@if(isOpen){Vazgeç} @else{Seç}</button>
     <p class="lower">Toplam Ürün Adedi: {{totalQuantity()}}</p>
     <button class="lower" type="button" [disabled]="isOpen && !isSelected()" (click)="clearList()">
       @if(isOpen) { Seçilenleri Sil} @else {Listeyi Temizle}
