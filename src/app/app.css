@@ -4,12 +4,12 @@
     gap: 5px;
     box-sizing: border-box;
     max-width: 640px;
-    min-height: 660px;
+    height: 660px;
     margin: 30px auto;
     background: #e9ede7;
     border: 2px solid brown;
     border-radius: 18px;
-    padding: 50px;
+    padding: 50px 50px 20px 50px;
 }
 
 h1 {
@@ -126,6 +126,13 @@ table {
 th,
 td {
     padding: 8px;
+    background: #D7E6CF;
+}
+th{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px #999;
 }
 
 .lower-part {
@@ -162,6 +169,8 @@ input[type="checkbox"] {
     position: relative;
     margin-top: 5px;
     margin-bottom: 5px;
+        background: #D7E6CF;
+
 }
 
 .search input{
@@ -183,4 +192,15 @@ input[type="checkbox"] {
     transform: translateY(-50%);
     border: none;
     background: transparent;
+}
+
+.table-div{
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border: 2px solid brown;
+    border-radius: 10px;
+    scrollbar-color: brown transparent;
+    scrollbar-width: thin;
+    background: #D7E6CF;;
 }
