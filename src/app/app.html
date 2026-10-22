@@ -32,7 +32,7 @@
         <th> @if(isOpen) { Seç} @else {Sil}</th>
       </tr>
       @for (product of filterProducts(); track product.id){
-      <tr>
+      <tr [id]="'row-' + product.id" [class.highlight]="product.id == highlightedId">
         <td>{{ product.id }}</td>
         <td>{{ product.productName }}</td>
         <td>
@@ -40,7 +40,7 @@
             <button class="operation" [disabled]="product.quantity == 1" type="button"
               (click)="decrease(product)">−</button>
             {{ product.quantity}}
-            <button class="operation" type="button" (click)="increase(product)">+</button>
+            <button class="operation" [class.pulse]="product.id == highlightedId" type="button" (click)="increase(product)">+</button>
           </div>
         </td>
         <td>

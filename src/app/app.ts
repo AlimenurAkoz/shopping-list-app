@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, ChangeDetectorRef, inject } from '@angular/core';
+//import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Product } from './models/product';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule],
+  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -16,6 +17,9 @@ export class App {
   counter: number = 1;
   isOpen = false;
   searchProduct = '';
+  private cdr = inject(ChangeDetectorRef);
+  highlightedId: number | null = null;
+  private highlightTime?: ReturnType<typeof setTimeout>;
   constructor() {
     const record = sessionStorage.getItem("products");
     if (record) {
@@ -29,8 +33,14 @@ export class App {
     this.objectName = '';
   }
 
-  add() {
-    if (this.objectName.trim() == '') {
+  async add() {
+    const name = this.objectName.trim();
+    if (name == '') {
+      return;
+    }
+    const existing = this.findProduct(name);
+    if (existing) {
+      await this.availableProduct(existing);
       return;
     }
     const newProduct: Product = { id: this.counter, productName: this.objectName, quantity: 1, selected: false }
@@ -38,6 +48,61 @@ export class App {
     this.counter++;
     this.clean();
     this.save();
+  }
+
+  findProduct(name: string): Product | undefined {
+    const text = name.trim().toLocaleLowerCase('tr');
+    return this.products.find(p => p.productName.trim().toLocaleLowerCase('tr') == text);
+  }
+
+  async availableProduct(product: Product) {
+    const result = await Swal.fire({
+      title: "Ürün Eklensin mi?",
+      text: `Eklemeye çalıştığınız ürün listede ${product.quantity} adet bulunuyor. Sayısı artırmak ister misiniz?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Artıralım',
+      cancelButtonText: 'Yeterli',
+      confirmButtonColor: 'brown',
+      cancelButtonColor: '#D7E6CF',
+      reverseButtons: true,
+    });
+    this.clean();
+
+    if (result.isConfirmed) {
+      this.searchProduct = '';
+      if (this.isOpen) {
+        this.openClose();
+      }
+      this.highlight(product);
+    } else {
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: 'info',
+        title: 'Ürün eklenmedi.',
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+      });
+    }
+    this.cdr.markForCheck();
+  }
+
+  highlight(product: Product) {
+    clearTimeout(this.highlightTime);
+    this.highlightedId = product.id;
+
+    setTimeout(() => {
+      document.getElementById('row-' + product.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    this.highlightTime = setTimeout(() => this.clearHighlight(), 6000);
+  }
+
+  clearHighlight() {
+    clearTimeout(this.highlightTime);
+    this.highlightedId = null;
+    this.cdr.markForCheck();
   }
 
   decrease(product: Product) {
@@ -48,6 +113,9 @@ export class App {
   }
   increase(product: Product) {
     product.quantity++;
+    if (product.id == this.highlightedId) {
+      this.clearHighlight();
+    }
     this.save();
   }
 
@@ -61,6 +129,7 @@ export class App {
   delete(product: Product) {
     const index = this.products.findIndex(p => p.id == product.id);
     this.products.splice(index, 1);
+    this.clearHighlight();
     this.indexSort();
     this.save();
   }
@@ -96,6 +165,7 @@ export class App {
   }
 
   clearList() {
+    this.clearHighlight();
     if (this.isOpen) {
       this.products = this.products.filter(p => !p.selected);
       this.indexSort();
