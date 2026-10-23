@@ -43,11 +43,12 @@ export class App {
       await this.availableProduct(existing);
       return;
     }
-    const newProduct: Product = { id: this.counter, productName: this.objectName, quantity: 1, selected: false }
+    const newProduct: Product = { id: this.counter, productName: name, quantity: 1, selected: false }
     this.products.push(newProduct);
     this.counter++;
     this.clean();
     this.save();
+    this.findProduct('')?.id
   }
 
   findProduct(name: string): Product | undefined {
@@ -64,7 +65,7 @@ export class App {
       confirmButtonText: 'Artıralım',
       cancelButtonText: 'Yeterli',
       confirmButtonColor: 'brown',
-      cancelButtonColor: '#D7E6CF',
+      cancelButtonColor: 'brown',
       reverseButtons: true,
     });
     this.clean();
