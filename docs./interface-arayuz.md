@@ -15,7 +15,7 @@ export interface Product {
 }
 ```
 
-<table><thead><tr><th width="132.99993896484375">Alan</th><th width="110">Tip</th><th width="296.0001220703125">Açıklama</th><th>Başlangıç değeri</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>number</code></td><td>Ürünün sıra numarası. Silme işlemlerinden sonra 1'den başlayarak yeniden verilir.</td><td>Sayaçtan (<code>counter</code>)</td></tr><tr><td><code>productName</code></td><td><code>string</code></td><td>Kullanıcının girdiği ürün adı</td><td>Giriş kutusundaki değer</td></tr><tr><td><code>quantity</code></td><td><code>number</code></td><td>Ürün adedi; 1'den küçük olamaz</td><td><code>1</code></td></tr><tr><td><code>selected</code></td><td><code>boolean</code></td><td>Seçim modunda ürünün işaretli olup olmadığı</td><td><code>false</code></td></tr></tbody></table>
+<table><thead><tr><th width="132.99993896484375">Alan</th><th width="110">Tip</th><th width="296.0001220703125">Açıklama</th><th>Başlangıç değeri</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>number</code></td><td>Ürünün sıra numarası. Silme işlemlerinden sonra 1'den başlayarak yeniden verilir.</td><td>Sayaçtan (<code>counter</code>)</td></tr><tr><td><code>productName</code></td><td><code>string</code></td><td>Kullanıcının girdiği ürün adı</td><td>Giriş kutusundaki değer</td></tr><tr><td><code>quantity</code></td><td><code>number</code></td><td>Ürün adedi 1'den küçük olamaz</td><td><code>1</code></td></tr><tr><td><code>selected</code></td><td><code>boolean</code></td><td>Seçim modunda ürünün işaretli olup olmadığı</td><td><code>false</code></td></tr></tbody></table>
 
 **Örnek:** Uygulamada iki ürün eklendiğinde dizi şu şekilde görünür:
 

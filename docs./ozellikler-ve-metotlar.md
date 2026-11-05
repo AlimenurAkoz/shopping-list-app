@@ -8,7 +8,7 @@ description: >-
 
 ## Ürün Ekleme
 
-Kullanıcının yazdığı ürün, yeni bir `Product` nesnesi olarak `push()` ile dizinin sonuna eklenir. Ürün listede zaten varsa yeni satır açılmaz; kullanıcıya adedi artırmak isteyip istemediği sorulur. [Tekrar eden ürün uyarısı](ozellikler-ve-metotlar.md#tekrar-eden-urun-uyarisi) kısmından detaylı incelenebilir.
+Kullanıcının yazdığı ürün, yeni bir `Product` nesnesi olarak `push()` ile dizinin sonuna eklenir. Ürün listede zaten varsa yeni satır açılmaz. Kullanıcıya adedi artırmak isteyip istemediği sorulur. [Tekrar eden ürün uyarısı](ozellikler-ve-metotlar.md#tekrar-eden-urun-uyarisi) kısmından detaylı incelenebilir.
 
 `app.html`
 
@@ -54,7 +54,7 @@ async add() {
 ```
 
 * `trim()` baştaki ve sondaki boşlukları siler. Böylece yalnızca boşluktan oluşan girişler reddedilir ve " Süt " gibi önünde boşluk olan girişler "Süt" olarak boşluksuz kaydedilir.
-* `return`, koşul sağlanmadığında metodu erken bitirir; geri kalan satırlar çalışmaz.
+* `return`, koşul sağlanmadığında metodu erken bitirir. Geri kalan satırlar çalışmaz.
 * Metot `async` olarak tanımlanmıştır, çünkü ürün listede varsa onay penceresinin kapanmasını `await` ile bekler.(Asenkron işlem)
 
 Ürün eklemek için kullanılan giriş kutusunu temizlemek için "x" butonu eklenir, `app.html`'de `type="button"` olarak tanımlanır. Bu butonun konumu ve stili `app.css`'te ayarlanır.
@@ -78,7 +78,7 @@ findProduct(name: string): Product | undefined {
 }
 ```
 
-* `find()`, koşulu sağlayan ilk elemanın kendisini döndürür; bulamazsa `undefined` döner. Dönüş tipi `Product | undefined` bu yüzden iki seçenek içerir.
+* `find()`, koşulu sağlayan ilk elemanın kendisini döndürür bulamazsa `undefined` döner. Dönüş tipi `Product | undefined` bu yüzden iki seçenek içerir.
 * `toLocaleLowerCase('tr')`, Türkçe kurallarına göre küçük harfe çevirir. `'tr'` yazılmazsa "I" harfi "ı" yerine "i" olur ve "Ispanak" ile "ispanak" eşleşmez.
 
 <figure><img src=".gitbook/assets/image (4).png" alt="" width="545"><figcaption></figcaption></figure>
@@ -97,8 +97,8 @@ const result = await Swal.fire({
 });
 ```
 
-* `Swal.fire()` bir söz (Promise) döndürür; `await` ile kullanıcı bir butona basana kadar beklenir. Sonuç `result.isConfirmed` ile okunur: "Artıralım" butonuna basıldıysa `true`, "Yeterli" butonuna basıldıysa veya pencere kapatıldıysa `false` olur.
-* Metin ters tırnak (`` ` ``) ile yazılmıştır. Bu yazımda `${...}` içine değişken yerleştirilebilir (template literal); ürünün adedi metne bu şekilde eklenir.
+* `Swal.fire()` bir söz (Promise) döndürür, `await` ile kullanıcı bir butona basana kadar beklenir. Sonuç `result.isConfirmed` ile okunur: "Artıralım" butonuna basıldıysa `true`, "Yeterli" butonuna basıldıysa veya pencere kapatıldıysa `false` olur.
+* Metin ters tırnak (`` ` ``) ile yazılmıştır. Bu yazımda `${...}` içine değişken yerleştirilebilir (template literal). Ürünün adedi metne bu şekilde eklenir.
 
 Bildirim için aynı fonksiyon `toast: true` ile kullanılır. `position: 'bottom-end'` bildirimi sağ alt köşeye yerleştirir, `timer: 2500` 2,5 saniye sonra kapatır.
 
@@ -120,7 +120,7 @@ highlight(product: Product) {
 * `clearTimeout(this.highlightTime)` art arda iki vurgu yapıldığında önceki zamanlayıcıyı iptal eder. İptal etmeseydi eski zamanlayıcı yeni vurguyu erken kaldırırdı.
 * `scrollIntoView()` satırı kaydırılabilir tablo alanında görünür konuma getirir. Gecikmesiz bir `setTimeout` içinde çağrılır, çünkü Angular satırı bir sonraki çizimde günceller.
 * `?.` ile eleman bulunamazsa hata vermeden işlemi atlar.
-* `highlightTime` değişkeninin tipi `ReturnType<typeof setTimeout>` olarak yazılmıştır; bu, "`setTimeout`'un döndürdüğü değerin tipi" anlamına gelir.
+* `highlightTime` değişkeninin tipi `ReturnType<typeof setTimeout>` olarak yazılmıştır, "`setTimeout`'un döndürdüğü değerin tipi" anlamına gelir.
 
 `app.html`
 
@@ -131,7 +131,7 @@ highlight(product: Product) {
 </tr>
 ```
 
-* `[id]` her satıra `row-1`, `row-2` gibi benzersiz bir kimlik verir; `scrollIntoView()` satırı bu kimlikle bulur.
+* `[id]` her satıra `row-1`, `row-2` gibi benzersiz bir kimlik verir, `scrollIntoView()` satırı bu kimlikle bulur.
 * `[class.highlight]="koşul"` koşul doğruysa elemana `highlight` sınıfını ekler, değilse kaldırır.&#x20;
 
 <figure><img src=".gitbook/assets/image (6).png" alt="" width="529"><figcaption></figcaption></figure>
@@ -150,10 +150,10 @@ Her satırdaki "−" ve "+" butonları, o satırdaki ürünün adedini bir azalt
 decrease(product: Product) {...}
 ```
 
-`decrease()` metoduyla adet sayısı 1 azaltılır, `increase()` metoduyla ise adet sayısı  artırılır. Bu metotlarda;
+`decrease()` metoduyla adet sayısı 1 azaltılır, `increase()` metoduyla ise adet sayısı  artırılır. Bu metotlarda:
 
-* Sayı (`product.quantity`) değil, ürünün kendisi (`product`) alınır. Sayılar metoda kopya olarak gider; nesneler ise referans olarak gider. Bu yüzden metotta yapılan değişiklik dizideki asıl ürünü değiştirir ve tablo kendiliğinden güncellenir.
-* Azaltma işleminde adet 1'in altına inemez. Şablonda `[disabled]="product.quantity == 1"` ile "−" butonu pasif yapılır; metottaki koşul da ayrıca bu sınırı korur.
+* Sayı (`product.quantity`) değil, ürünün kendisi (`product`) alınır. Sayılar metoda kopya olarak gider, nesneler ise referans olarak gider. Bu yüzden metotta yapılan değişiklik dizideki asıl ürünü değiştirir ve tablo kendiliğinden güncellenir.
+* Azaltma işleminde adet 1'in altına inemez. Şablonda `[disabled]="product.quantity == 1"` ile "−" butonu pasif yapılır.
 * Vurgulu satırın "+" butonuna basıldığında adet artar ve vurgu kalkar.
 
 ## Ürün Silme
@@ -191,8 +191,8 @@ Sıra numaralarının yeniden verilmesi hem tek ürün silmede hem de seçilenle
 
 Arama işlemi `filterProducts()` metoduyla sağlanır. Bu metotta:
 
-* `filter()` , koşulu sağlayan elemanlardan yeni bir dizi döndürür; asıl dizi değişmez.
-* `includes()` ürün adının arama metnini içerip içermediğine bakar.
+* `filter()` , koşulu sağlayan elemanlardan yeni bir dizi döndürür asıl dizi değişmez.
+* `includes()`, ürün adının arama metnini içerip içermediğine bakar.
 
 ```typescript
 filterProducts(): Product[] {
@@ -209,7 +209,7 @@ Seçim modunda arama ile gizlenen işaretli ürünlerin de "Seçilenleri Sil" il
 
 ## Seçim Modu ve Toplu Silme
 
-Seç butonuna basıldığında; son sütundaki çöp kutuları onay kutularına, "Seç" butonu "Vazgeç" butonuna, "Listeyi Temizle" butonu "Seçilenleri Sil" butonuna dönüşür.&#x20;
+Seç butonuna basıldığında son sütundaki çöp kutuları onay kutularına, "Seç" butonu "Vazgeç" butonuna, "Listeyi Temizle" butonu "Seçilenleri Sil" butonuna dönüşür.&#x20;
 
 `app.html`
 
@@ -231,7 +231,7 @@ Seç butonuna basıldığında; son sütundaki çöp kutuları onay kutularına,
 
 ## Listeyi Temizleme
 
-`clearList()` metoduyla;
+`clearList()` metoduyla:
 
 * Seçim modu açıkken `filter()` ile işaretli olmayan ürünler bırakılır.
 * Seçim modu kapalıyken dizinin `length` değeri 0 yapılır böylece dizi tamamen boşaltılır.
@@ -246,10 +246,10 @@ Seç butonuna basıldığında; son sütundaki çöp kutuları onay kutularına,
 Liste tarayıcının `sessionStorage` alanında saklanır: sayfa yenilendiğinde korunur, sekme kapatıldığında silinir. Tarayıcı kapansa bile korunması için `sessionStorage` yerine `localStorage` kullanılmalıdır. \
 Bu saklama alanları yalnızca metin saklar. Bu yüzden diziyi JSON metnine çevirmek için `JSON.stringify()` , tekrar diziye çevirmek için de `JSON.parse()` kullanılır.
 
-`save()` metodu;
+`save()` metodu:
 
 * Listeyi değiştiren her metodun sonunda çağrılır: `add()`, `increase()`, `decrease()`, `delete()`, `clearList()`.
-* Seçim modu, arama metni ve satır vurgusu kaydedilmez; sayfa yenilendiğinde başlangıç değerlerine döner.
+* Seçim modu, arama metni ve satır vurgusu kaydedilmez, sayfa yenilendiğinde başlangıç değerlerine döner.
 
 {% hint style="info" %}
 Kayıt, tarayıcıda F12 → Application → Session Storage altında `products` anahtarıyla görülebilir.
@@ -257,6 +257,6 @@ Kayıt, tarayıcıda F12 → Application → Session Storage altında `products`
 
 ## Kullanılan Metotların Özeti
 
-<table data-header-hidden data-search="false"><thead><tr><th>Metot</th><th>Ne yapar</th><th>Kullanıldığı yer</th></tr></thead><tbody><tr><td><code>push()</code></td><td>Dizinin sonuna eleman ekler</td><td>Ürün Ekleme</td></tr><tr><td><code>length</code></td><td>Eleman sayısını verir; değer atanarak dizinin boyutu değiştirilebilir</td><td>Boş liste kontrolü, döngüler, Listeyi Temizleme</td></tr><tr><td><code>find()</code></td><td>Koşulu sağlayan ilk elemanın kendisini döndürür</td><td>Tekrar Eden Ürün Uyarısı</td></tr><tr><td><code>findIndex()</code></td><td>Koşulu sağlayan ilk elemanın konumunu döndürür</td><td>Ürün Silme</td></tr><tr><td><code>splice()</code></td><td>Belirli bir konumdan eleman siler</td><td>Ürün Silme</td></tr><tr><td><code>filter()</code></td><td>Koşulu sağlayan elemanlardan yeni bir dizi oluşturur</td><td>Listede Arama, Listeyi Temizleme</td></tr><tr><td><code>trim()</code></td><td>Baştaki ve sondaki boşlukları siler</td><td>Ürün Ekleme, Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>toLocaleLowerCase('tr')</code></td><td>Türkçe kurallarına göre küçük harfe çevirir</td><td>Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>includes()</code></td><td>Metnin başka bir metni içerip içermediğini kontrol eder</td><td>Listede Arama</td></tr><tr><td><code>JSON.stringify()</code></td><td>Diziyi metne çevirir</td><td>Verilerin Saklanması</td></tr><tr><td><code>JSON.parse()</code></td><td>Metni tekrar diziye çevirir</td><td>Verilerin Saklanması</td></tr></tbody></table>
+<table data-header-hidden data-search="false"><thead><tr><th>Metot</th><th>Ne yapar</th><th>Kullanıldığı yer</th></tr></thead><tbody><tr><td><code>push()</code></td><td>Dizinin sonuna eleman ekler</td><td>Ürün Ekleme</td></tr><tr><td><code>length</code></td><td>Eleman sayısını verir, değer atanarak dizinin boyutu değiştirilebilir</td><td>Boş liste kontrolü, döngüler, Listeyi Temizleme</td></tr><tr><td><code>find()</code></td><td>Koşulu sağlayan ilk elemanın kendisini döndürür</td><td>Tekrar Eden Ürün Uyarısı</td></tr><tr><td><code>findIndex()</code></td><td>Koşulu sağlayan ilk elemanın konumunu döndürür</td><td>Ürün Silme</td></tr><tr><td><code>splice()</code></td><td>Belirli bir konumdan eleman siler</td><td>Ürün Silme</td></tr><tr><td><code>filter()</code></td><td>Koşulu sağlayan elemanlardan yeni bir dizi oluşturur</td><td>Listede Arama, Listeyi Temizleme</td></tr><tr><td><code>trim()</code></td><td>Baştaki ve sondaki boşlukları siler</td><td>Ürün Ekleme, Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>toLocaleLowerCase('tr')</code></td><td>Türkçe kurallarına göre küçük harfe çevirir</td><td>Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>includes()</code></td><td>Metnin başka bir metni içerip içermediğini kontrol eder</td><td>Listede Arama</td></tr><tr><td><code>JSON.stringify()</code></td><td>Diziyi metne çevirir</td><td>Verilerin Saklanması</td></tr><tr><td><code>JSON.parse()</code></td><td>Metni tekrar diziye çevirir</td><td>Verilerin Saklanması</td></tr></tbody></table>
 
 Dizi fonksiyonlarından `pop()` her zaman dizinin son elemanını sildiği için, kullanıcının seçtiği belirli bir ürünü silmekte kullanılamaz. Bu yüzden silme işlemi `findIndex()` ve `splice()` ile yapıldı.
