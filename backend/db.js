@@ -7,3 +7,6 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 });
 export default pool;
+/*şu kullanım da yapılabilir(default zorunlu değil):
+export const pool = new Pool({...});
+*/
