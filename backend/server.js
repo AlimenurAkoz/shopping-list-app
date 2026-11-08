@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { getProducts,createProduct } from "./products.js";
+import { getProducts, createProduct, updateProduct } from "./products.js";
 import { createServer } from "node:http";
 
 const server = createServer(async (req, res) => {
@@ -13,7 +13,7 @@ const server = createServer(async (req, res) => {
         res.end();
         return;
     }
-    
+
     //READ Servisi
     if (req.method === 'GET' && req.url === '/api/products') {
         await getProducts(req, res);
@@ -24,9 +24,15 @@ const server = createServer(async (req, res) => {
         await createProduct(req, res);
         return;
     }
+    //UPDATE servisi
+    if (req.method === 'PATCH' && req.url.startsWith('/api/products/')) {
+        const id = req.url.slice('/api/products/'.length);
+        await updateProduct(req, res, id);
+        return;
+    }
     //if'ler eşleşmediyse her şeyi yakalayan yapı olarak çalışır
     res.statusCode = 404;
-    res.end(JSON.stringify({ hata: 'Bulunamadı' }));
+    res.end(JSON.stringify({ error: 'Bulunamadı' }));
 });
 server.listen(process.env.PORT, () => {
     console.log('Çalıştı')
