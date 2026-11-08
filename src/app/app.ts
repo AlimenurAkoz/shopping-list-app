@@ -1,7 +1,10 @@
 import { Component, signal, ChangeDetectorRef, inject } from '@angular/core';
 //import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { Product } from './models/product';
+import { ProductApi } from './services/product-api';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,19 +17,35 @@ export class App {
   protected readonly title = signal('shopping-list');
   objectName = '';
   products: Product[] = [];
-  counter: number = 1;
   isOpen = false;
   searchProduct = '';
   private cdr = inject(ChangeDetectorRef);
-  highlightedId: number | null = null;
+  private api = inject(ProductApi);
+  highlightedId: string | null = null;
   private highlightTime?: ReturnType<typeof setTimeout>;
+
   constructor() {
-    const record = sessionStorage.getItem("products");
-    if (record) {
-      this.products = JSON.parse(record);
-      this.counter = this.products.length + 1;
-      this.closeSelect();
+    this.loadProducts();
+  }
+  async loadProducts() {
+    try {
+      this.products = await firstValueFrom(this.api.getProducts());
+    } catch {
+      this.showError('Ürünler yüklenemedi.');
     }
+    this.cdr.markForCheck();
+  }
+
+  showError(message: string) {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+    });
   }
 
   clean() {
@@ -43,13 +62,21 @@ export class App {
       await this.availableProduct(existing);
       return;
     }
-    const newProduct: Product = { id: this.counter, productName: name, quantity: 1, selected: false }
-    this.products.push(newProduct);
-    this.counter++;
-    this.clean();
-    this.save();
-    this.findProduct('')?.id
+    try {
+      const newProduct = await firstValueFrom(this.api.createProduct(name));
+      this.products.push(newProduct);
+      this.clean();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 409) {
+        await this.loadProducts();
+        this.showError('Bu ürün listede zaten var.');
+      } else {
+        this.showError('Ürün eklenemedi.');
+      }
+    }
+    this.cdr.markForCheck();
   }
+
 
   findProduct(name: string): Product | undefined {
     const text = name.trim().toLocaleLowerCase('tr');
@@ -106,33 +133,47 @@ export class App {
     this.cdr.markForCheck();
   }
 
-  decrease(product: Product) {
-    if (product.quantity > 1) {
-      product.quantity--;
+  async decrease(product: Product) {
+    if (product.quantity <= 1) {
+      return;
     }
-    this.save();
+    await this.changeQuantity(product, product.quantity - 1);
   }
-  increase(product: Product) {
-    product.quantity++;
+
+  async increase(product: Product) {
     if (product.id == this.highlightedId) {
       this.clearHighlight();
     }
-    this.save();
+    await this.changeQuantity(product, product.quantity + 1);
   }
 
-  indexSort() {
-    for (let i = 0; i < this.products.length; i++) {
-      this.products[i].id = i + 1;
+  async changeQuantity(product: Product, quantity: number) {
+    try {
+      const updated = await firstValueFrom(this.api.updateProduct(product.id, quantity));
+      product.quantity = updated.quantity;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 404) {
+        this.showError('Ürün bulunamadı, liste yenilendi.');
+        await this.loadProducts();
+        return;
+      }
+      this.showError('Adet güncellenemedi.');
     }
-    this.counter = this.products.length + 1;
+    this.cdr.markForCheck();
   }
 
-  delete(product: Product) {
-    const index = this.products.findIndex(p => p.id == product.id);
-    this.products.splice(index, 1);
+  async delete(product: Product) {
+    try {
+      await firstValueFrom(this.api.deleteProduct(product.id));
+    } catch (error) {
+      if (!(error instanceof HttpErrorResponse && error.status === 404)) {
+        this.showError('Ürün silinemedi.');
+        this.cdr.markForCheck();
+        return;
+      }
+    }
+    this.products = this.products.filter(p => p.id !== product.id);
     this.clearHighlight();
-    this.indexSort();
-    this.save();
   }
 
   totalQuantity(): number {
@@ -165,25 +206,21 @@ export class App {
     return false;
   }
 
-  clearList() {
+  async clearList() {
     this.clearHighlight();
-    if (this.isOpen) {
-      this.products = this.products.filter(p => !p.selected);
-      this.indexSort();
-      this.isOpen = false;
-    } else {
-      this.products.length = 0;
-      this.counter = 1;
+    const toDelete = this.isOpen ? this.products.filter(p => p.selected) : this.products;
+    const results = await Promise.allSettled(
+      toDelete.map(p => firstValueFrom(this.api.deleteProduct(p.id)))
+    );
+    if (results.some(r => r.status === 'rejected')) {
+      this.showError('Bazı ürünler silinemedi.');
     }
-    this.save();
+    this.isOpen = false;
+    await this.loadProducts();
   }
 
   filterProducts(): Product[] {
     const searchText = this.searchProduct.trim().toLocaleLowerCase('tr');
     return this.products.filter(p => p.productName.toLocaleLowerCase('tr').includes(searchText));
-  }
-
-  save() {
-    sessionStorage.setItem('products', JSON.stringify(this.products));
   }
 }
