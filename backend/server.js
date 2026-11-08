@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { getProducts } from "./products.js";
+import { getProducts,createProduct } from "./products.js";
 import { createServer } from "node:http";
 
 const server = createServer(async (req, res) => {
@@ -17,6 +17,11 @@ const server = createServer(async (req, res) => {
     //READ Servisi
     if (req.method === 'GET' && req.url === '/api/products') {
         await getProducts(req, res);
+        return;
+    }
+    //CREATE Servisi
+    if (req.method === 'POST' && req.url === '/api/products') {
+        await createProduct(req, res);
         return;
     }
     //if'ler eşleşmediyse her şeyi yakalayan yapı olarak çalışır
