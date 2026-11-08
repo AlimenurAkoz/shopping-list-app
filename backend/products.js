@@ -89,3 +89,25 @@ export async function updateProduct(req, res, id) {
         res.end(JSON.stringify({error: 'Ürün güncellenemedi'}))
     }
 }
+
+export async function deleteProduct(req,res,id){
+    try{
+        const result = await pool.query('DELETE FROM products WHERE id = $1', [id]);
+        if(result.rowCount === 0){
+            res.statusCode = 404;
+            res.end(JSON.stringify({error : 'Ürün bulunamadı'}));
+            return;
+        }
+        res.statusCode = 204;
+        res.end();
+    }catch(error){
+        if(error.code === '22P02'){
+            res.statusCode = 404;
+            res.end(JSON.stringify({error: 'Ürün bulunamadı'}));
+            return;
+        }
+        console.error(error);
+        res.statusCode = 500;
+        res.end(JSON.stringify({error: 'Ürün silinemedi'}));
+    }
+}

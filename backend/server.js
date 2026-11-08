@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { getProducts, createProduct, updateProduct } from "./products.js";
+import { getProducts, createProduct, updateProduct, deleteProduct } from "./products.js";
 import { createServer } from "node:http";
 
 const server = createServer(async (req, res) => {
@@ -28,6 +28,12 @@ const server = createServer(async (req, res) => {
     if (req.method === 'PATCH' && req.url.startsWith('/api/products/')) {
         const id = req.url.slice('/api/products/'.length);
         await updateProduct(req, res, id);
+        return;
+    }
+    //DELETE servisi
+    if (req.method === 'DELETE' && req.url.startsWith('/api/products/')) {
+        const id = req.url.slice('/api/products/'.length);
+        await deleteProduct(req, res, id);
         return;
     }
     //if'ler eşleşmediyse her şeyi yakalayan yapı olarak çalışır
