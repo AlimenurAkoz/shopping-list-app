@@ -13,15 +13,12 @@ export class ProductApi {
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
-
   createProduct(productName: string): Observable<Product> {
     return this.http.post<Product>(this.apiUrl, { productName });
   }
-
   updateProduct(id: string, quantity: number): Observable<Product> {
     return this.http.patch<Product>(`${this.apiUrl}/${id}`, { quantity });
   }
-
   deleteProduct(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
