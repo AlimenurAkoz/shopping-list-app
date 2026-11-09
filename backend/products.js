@@ -17,7 +17,7 @@ export async function getProducts(req, res) {
     } catch (error) {
         console.error(error);
         res.statusCode = 500;
-        res.end(JSON.stringify({ error: 'Ürünler alınamadı' }));
+        res.end(JSON.stringify({ error: 'Ürünler yüklenemedi' }));
     }
 }
 
