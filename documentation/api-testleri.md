@@ -4,9 +4,11 @@ description: >-
   gönderilen isteklerle test edildi.
 ---
 
-# 🧪 API Testleri
+# API Testleri
 
-Tarayıcının adres çubuğu yalnızca `GET` isteği gönderebildiği için diğer yöntemler PowerShell ile denendi. Testler sırasında `backend` klasöründe `npm run dev` ayrı bir terminalde açık olmalıdır.
+Tarayıcının adres çubuğu yalnızca `GET` isteği gönderebildiği için diğer yöntemler PowerShell ile denendi.&#x20;
+
+Testler sırasında `backend` klasöründe `npm run dev` ayrı bir terminalde açık olmalıdır.
 
 {% hint style="info" %}
 PowerShell'den gönderilen istekler tarayıcıdan geçmez. Bu yüzden F12 → Network sekmesinde görünmez ve CORS kurallarına takılmaz.
@@ -74,6 +76,6 @@ try { Invoke-WebRequest -Uri http://localhost:3000/api/products/yanlis-id -Metho
 
 Angular bağlandıktan sonra uygulama `http://localhost:4200` adresinde denendi. Her işlemden sonra sayfa yenilendi; değişikliklerin kalması, verinin veritabanına yazıldığını gösterir.
 
-<table><thead><tr><th width="270">İşlem</th><th>Beklenen</th></tr></thead><tbody><tr><td>Ürün ekleme</td><td>Listeye eklenir, sayfa yenilenince kalır</td></tr><tr><td>Aynı ürünü farklı harfle ekleme</td><td>"Artıralım / Yeterli" penceresi</td></tr><tr><td>"+" / "−"</td><td>Adet değişir, 1'in altına inmez</td></tr><tr><td>Çöp kutusu</td><td>Ürün silinir</td></tr><tr><td>Seç → Seçilenleri Sil</td><td>Yalnızca seçilenler silinir</td></tr><tr><td>Listeyi Temizle</td><td>Liste boşalır, "Eksik Yok" görünür</td></tr><tr><td>API kapalıyken sayfayı açma</td><td>"Ürünler yüklenemedi." bildirimi</td></tr></tbody></table>
+<table data-search="false"><thead><tr><th width="270">İşlem</th><th>Beklenen</th></tr></thead><tbody><tr><td>Ürün ekleme</td><td>Listeye eklenir, sayfa yenilenince kalır</td></tr><tr><td>Aynı ürünü farklı harfle ekleme</td><td>"Artıralım / Yeterli" penceresi</td></tr><tr><td>"+" / "−"</td><td>Adet değişir, 1'in altına inmez</td></tr><tr><td>Çöp kutusu</td><td>Ürün silinir</td></tr><tr><td>Seç → Seçilenleri Sil</td><td>Yalnızca seçilenler silinir</td></tr><tr><td>Listeyi Temizle</td><td>Liste boşalır, "Eksik Yok" görünür</td></tr><tr><td>API kapalıyken sayfayı açma</td><td>"Ürünler yüklenemedi." bildirimi</td></tr></tbody></table>
 
 Tarayıcıda F12 → Network → Fetch/XHR filtresinde `products` istekleri ve durum kodları görülebilir.

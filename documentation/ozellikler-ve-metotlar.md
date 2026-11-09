@@ -4,7 +4,7 @@ description: >-
   kullandığı anlatılıyor.
 ---
 
-# ⚙️ Özellikler ve Metotlar
+# Özellikler ve Metotlar
 
 ## Ürün Ekleme
 
@@ -64,10 +64,10 @@ async add() {
 * `trim()` baştaki ve sondaki boşlukları siler. Böylece yalnızca boşluktan oluşan girişler reddedilir ve " Süt " gibi önünde boşluk olan girişler "Süt" olarak boşluksuz kaydedilir.
 * `return`, koşul sağlanmadığında metodu erken bitirir. Geri kalan satırlar çalışmaz.
 * Metot `async` olarak tanımlanmıştır, çünkü ürün listede varsa onay penceresinin kapanmasını, yoksa sunucunun yanıtını `await` ile bekler.(Asenkron işlem)
-* `this.api.createProduct(name)` `POST /api/products` isteğini hazırlar, `firstValueFrom` isteği gönderip yanıtı bekler. Yanıt, veritabanına eklenen üründür; adedi veritabanı `1` olarak verir.
-* Ürün ekranda yalnızca sunucu onayladıktan sonra görünür. İstek başarısız olursa diziye bir şey eklenmez ve giriş kutusu temizlenmez; kullanıcı yazdığını kaybetmez.
+* `this.api.createProduct(name)` `POST /api/products` isteğini hazırlar, `firstValueFrom` isteği gönderip yanıtı bekler. Yanıt, veritabanına eklenen üründür, adedi veritabanı `1` olarak verir.
+* Ürün ekranda yalnızca sunucu onayladıktan sonra görünür. İstek başarısız olursa diziye bir şey eklenmez ve giriş kutusu temizlenmez, kullanıcı yazdığını kaybetmez.
 * `409` (Conflict), aynı ürünün veritabanında zaten olduğunu gösterir. Bu durum, ürün başka bir sekmeden eklendiği için ekrandaki listede görünmüyorsa oluşur. Liste sunucudan yenilenir ve kullanıcıya bildirilir.
-* `instanceof HttpErrorResponse` kontrolü, yakalanan hatanın gerçekten bir HTTP hatası olduğundan emin olmak için yapılır; TypeScript `catch` içindeki hatanın tipini bilmez.
+* `instanceof HttpErrorResponse` kontrolü, yakalanan hatanın gerçekten bir HTTP hatası olduğundan emin olmak için yapılır. TypeScript `catch` içindeki hatanın tipini bilmez.
 
 Ürün eklemek için kullanılan giriş kutusunu temizlemek için "x" butonu eklenir, `app.html`'de `type="button"` olarak tanımlanır. Bu butonun konumu ve stili `app.css`'te ayarlanır.
 
@@ -75,7 +75,7 @@ async add() {
 
 Listede mevcut olan bir ürün eklenmek istendiğinde yeni satır açılmaz ve sunucuya istek gönderilmez. Kullanıcıya ürünün listede kaç adet olduğu gösterilir ve adedi artırmak isteyip istemediği sorulur.
 
-<table><thead><tr><th width="125.39996337890625">Seçim/Buton</th><th>İşlem</th></tr></thead><tbody><tr><td>Artıralım</td><td>Pencere kapanır, ilgili satır vurgulanır ve görünür alana kaydırılır, satırdaki "+" butonu yanıp söner. Adet, kullanıcı "+" butonuna bastığında artar.</td></tr><tr><td>Yeterli</td><td>Pencere kapanır, ekleme yapılmaz, sağ alt köşede "Ürün eklenmedi." bildirimi görünür.</td></tr></tbody></table>
+<table><thead><tr><th width="115">Seçim/Buton</th><th>İşlem</th></tr></thead><tbody><tr><td>Artıralım</td><td>Pencere kapanır, ilgili satır vurgulanır ve görünür alana kaydırılır, satırdaki "+" butonu yanıp söner. Adet, kullanıcı "+" butonuna bastığında artar.</td></tr><tr><td>Yeterli</td><td>Pencere kapanır, ekleme yapılmaz, sağ alt köşede "Ürün eklenmedi." bildirimi görünür.</td></tr></tbody></table>
 
 Her iki durumda da giriş kutusu temizlenir.
 
@@ -94,7 +94,7 @@ findProduct(name: string): Product | undefined {
 * `toLocaleLowerCase('tr')`, Türkçe kurallarına göre küçük harfe çevirir. `'tr'` yazılmazsa "I" harfi "ı" yerine "i" olur ve "Ispanak" ile "ispanak" eşleşmez.
 * Aynı kural veritabanında da korunur: tablodaki benzersiz indeks Türkçe harf kurallarıyla karşılaştırma yapar. Böylece frontend dışından (örneğin doğrudan API'ye) gelen istekler de aynı ürünü ikinci kez ekleyemez. Ayrıntılar: [Veritabanı](veritabani.md#benzersiz-indeks)
 
-<figure><img src=".gitbook/assets/image (4).png" alt="" width="545"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3).png" alt="" width="545"><figcaption></figcaption></figure>
 
 ### Onay penceresi ve bildirim: SweetAlert2
 
@@ -161,7 +161,7 @@ highlight(product: Product) {
 ```
 
 * `[id]` her satıra ürünün kimliğinden oluşan `row-4940774e-...` gibi benzersiz bir kimlik verir, `scrollIntoView()` satırı bu kimlikle bulur.
-* `[class.highlight]="koşul"` koşul doğruysa elemana `highlight` sınıfını ekler, değilse kaldırır.&#x20;
+* `[class.highlight]="koşul"` koşul doğruysa elemana `highlight` sınıfını ekler, değilse kaldırır.
 
 <figure><img src=".gitbook/assets/image (6).png" alt="" width="529"><figcaption></figcaption></figure>
 
@@ -177,17 +177,11 @@ Her satırdaki "−" ve "+" butonları, o satırdaki ürünün adedini bir azalt
 
 ```ts
 async decrease(product: Product) {
-  if (product.quantity <= 1) {
-    return;
-  }
-  await this.changeQuantity(product, product.quantity - 1);
+  ...
 }
 
 async increase(product: Product) {
-  if (product.id == this.highlightedId) {
-    this.clearHighlight();
-  }
-  await this.changeQuantity(product, product.quantity + 1);
+  ...
 }
 
 async changeQuantity(product: Product, quantity: number) {
@@ -268,13 +262,13 @@ filterProducts(): Product[] {
 
 Tablonun `@for` döngüsü asıl dizi yerine bu metodun döndürdüğü diziyi dolaşır. Sonuç yoksa `@empty` bloğu "Ürün alışveriş listenizde bulunmuyor." mesajını gösterir.
 
-Seçim modunda arama ile gizlenen işaretli ürünlerin de "Seçilenleri Sil" ile silinmemesi için arama kutusu `[disabled]="isOpen"` ile pasif olur.&#x20;
+Seçim modunda arama ile gizlenen işaretli ürünlerin de "Seçilenleri Sil" ile silinmemesi için arama kutusu `[disabled]="isOpen"` ile pasif olur.
 
 <figure><img src=".gitbook/assets/image (2).png" alt="" width="521"><figcaption></figcaption></figure>
 
 ## Seçim Modu ve Toplu Silme
 
-Seç butonuna basıldığında son sütundaki çöp kutuları onay kutularına, "Seç" butonu "Vazgeç" butonuna, "Listeyi Temizle" butonu "Seçilenleri Sil" butonuna dönüşür.&#x20;
+Seç butonuna basıldığında son sütundaki çöp kutuları onay kutularına, "Seç" butonu "Vazgeç" butonuna, "Listeyi Temizle" butonu "Seçilenleri Sil" butonuna dönüşür.
 
 `app.html`
 
@@ -317,7 +311,7 @@ async clearList() {
 * Backend'de toplu silme servisi olmadığı için her ürün için ayrı bir `DELETE` isteği gönderilir. `map()`, her ürün için bir istek oluşturur ve istekler aynı anda gider.
 * `Promise.allSettled()`, isteklerin hepsinin bitmesini bekler. Biri başarısız olsa bile diğerleri devam eder; sonuçta her isteğin başarılı (`fulfilled`) ya da başarısız (`rejected`) olduğu bilgisi gelir. `Promise.all()` kullanılsaydı ilk hatada beklemeyi bırakırdı.
 * `some()` en az bir başarısız istek varsa bildirim gösterir.
-* Sonunda liste sunucudan yeniden yüklenir. Hangi ürünün silindiği tek tek takip edilmez; ekran veritabanının gerçek halini gösterir.
+* Sonunda liste sunucudan yeniden yüklenir. Hangi ürünün silindiği tek tek takip edilmez, ekran veritabanının gerçek halini gösterir.
 
 ## Toplam Ürün Adedi
 
@@ -328,7 +322,7 @@ async clearList() {
 
 Liste PostgreSQL veritabanında saklanır. Sayfa yenilendiğinde, sekme veya tarayıcı kapatıldığında, hatta başka bir tarayıcıdan açıldığında liste korunur. Tarayıcıdaki `products` dizisi, veritabanındaki listenin ekranda gösterilen kopyasıdır.
 
-<table><thead><tr><th width="200">İşlem</th><th width="230">İstek</th><th>Ne zaman</th></tr></thead><tbody><tr><td>Listeyi yükleme</td><td><code>GET /api/products</code></td><td>Sayfa açılışında, toplu silmeden sonra, hata sonrası tutarsızlık şüphesinde</td></tr><tr><td>Ürün ekleme</td><td><code>POST /api/products</code></td><td><code>add()</code></td></tr><tr><td>Adet değiştirme</td><td><code>PATCH /api/products/{id}</code></td><td><code>increase()</code>, <code>decrease()</code></td></tr><tr><td>Ürün silme</td><td><code>DELETE /api/products/{id}</code></td><td><code>delete()</code>, <code>clearList()</code></td></tr></tbody></table>
+<table><thead><tr><th width="155.20001220703125">İşlem</th><th width="202.79998779296875">İstek</th><th>Ne zaman kullanılır</th></tr></thead><tbody><tr><td>Listeyi yükleme</td><td><code>GET /api/products</code></td><td>Sayfa açılışında, toplu silmeden sonra, hata sonrası tutarsızlık şüphesinde</td></tr><tr><td>Ürün ekleme</td><td><code>POST /api/products</code></td><td><code>add()</code></td></tr><tr><td>Adet değiştirme</td><td><code>PATCH /api/products/{id}</code></td><td><code>increase()</code>, <code>decrease()</code></td></tr><tr><td>Ürün silme</td><td><code>DELETE /api/products/{id}</code></td><td><code>delete()</code>, <code>clearList()</code></td></tr></tbody></table>
 
 * Seçim modu, arama metni ve satır vurgusu kaydedilmez, sayfa yenilendiğinde başlangıç değerlerine döner.
 * İsteklerin nasıl gönderildiği [ProductApi Servisi](productapi-servisi.md), sunucuda nasıl karşılandığı [CRUD Servisleri](crud-servisleri.md) sayfasında anlatılıyor.
@@ -338,11 +332,11 @@ Liste PostgreSQL veritabanında saklanır. Sayfa yenilendiğinde, sekme veya tar
 {% endhint %}
 
 {% hint style="info" %}
-Frontend sürümünde liste tarayıcının `sessionStorage` alanında `JSON.stringify()` / `JSON.parse()` ile saklanıyor ve her değişiklikten sonra `save()` çağrılıyordu. Bu kod kaldırıldı. Bkz. [Sürüm Geçmişi](surum-gecmisi.md).
+Frontend sürümünde liste tarayıcının `sessionStorage` alanında `JSON.stringify()` / `JSON.parse()` ile saklanıyor ve her değişiklikten sonra `save()` çağrılıyordu. Bu kod kaldırıldı. Bkz. [Sürüm Geçmişi](/broken/pages/j3WS7jc65IsSw331IRKv).
 {% endhint %}
 
 ## Kullanılan Metotların Özeti
 
-<table data-header-hidden data-search="false"><thead><tr><th>Metot</th><th>Ne yapar</th><th>Kullanıldığı yer</th></tr></thead><tbody><tr><td>Metot</td><td>Ne yapar</td><td>Kullanıldığı yer</td></tr><tr><td><code>push()</code></td><td>Dizinin sonuna eleman ekler</td><td>Ürün Ekleme</td></tr><tr><td><code>length</code></td><td>Eleman sayısını verir</td><td>Boş liste kontrolü, döngüler</td></tr><tr><td><code>find()</code></td><td>Koşulu sağlayan ilk elemanın kendisini döndürür</td><td>Tekrar Eden Ürün Uyarısı</td></tr><tr><td><code>filter()</code></td><td>Koşulu sağlayan elemanlardan yeni bir dizi oluşturur</td><td>Listede Arama, Ürün Silme, Listeyi Temizleme</td></tr><tr><td><code>map()</code></td><td>Her elemandan yeni bir değer üretip yeni bir dizi oluşturur</td><td>Listeyi Temizleme (her ürün için bir istek)</td></tr><tr><td><code>some()</code></td><td>En az bir eleman koşulu sağlıyorsa <code>true</code> döndürür</td><td>Listeyi Temizleme</td></tr><tr><td><code>trim()</code></td><td>Baştaki ve sondaki boşlukları siler</td><td>Ürün Ekleme, Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>toLocaleLowerCase('tr')</code></td><td>Türkçe kurallarına göre küçük harfe çevirir</td><td>Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>includes()</code></td><td>Metnin başka bir metni içerip içermediğini kontrol eder</td><td>Listede Arama</td></tr><tr><td><code>firstValueFrom()</code></td><td><code>Observable</code> döndüren isteği <code>await</code> ile beklenebilir hale getirir</td><td>Tüm sunucu istekleri</td></tr><tr><td><code>Promise.allSettled()</code></td><td>Birden fazla isteğin hepsinin bitmesini bekler</td><td>Listeyi Temizleme</td></tr></tbody></table>
+<table data-header-hidden data-search="false"><thead><tr><th width="176.60003662109375">Metot</th><th>Ne yapar</th><th>Kullanıldığı yer</th></tr></thead><tbody><tr><td>Metot</td><td>Ne yapar</td><td>Kullanıldığı yer</td></tr><tr><td><code>push()</code></td><td>Dizinin sonuna eleman ekler</td><td>Ürün Ekleme</td></tr><tr><td><code>length</code></td><td>Eleman sayısını verir</td><td>Boş liste kontrolü, döngüler</td></tr><tr><td><code>find()</code></td><td>Koşulu sağlayan ilk elemanın kendisini döndürür</td><td>Tekrar Eden Ürün Uyarısı</td></tr><tr><td><code>filter()</code></td><td>Koşulu sağlayan elemanlardan yeni bir dizi oluşturur</td><td>Listede Arama, Ürün Silme, Listeyi Temizleme</td></tr><tr><td><code>map()</code></td><td>Her elemandan yeni bir değer üretip yeni bir dizi oluşturur</td><td>Listeyi Temizleme (her ürün için bir istek)</td></tr><tr><td><code>some()</code></td><td>En az bir eleman koşulu sağlıyorsa <code>true</code> döndürür</td><td>Listeyi Temizleme</td></tr><tr><td><code>trim()</code></td><td>Baştaki ve sondaki boşlukları siler</td><td>Ürün Ekleme, Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>toLocaleLowerCase('tr')</code></td><td>Türkçe kurallarına göre küçük harfe çevirir</td><td>Tekrar Eden Ürün Uyarısı, Listede Arama</td></tr><tr><td><code>includes()</code></td><td>Metnin başka bir metni içerip içermediğini kontrol eder</td><td>Listede Arama</td></tr><tr><td><code>firstValueFrom()</code></td><td><code>Observable</code> döndüren isteği <code>await</code> ile beklenebilir hale getirir</td><td>Tüm sunucu istekleri</td></tr><tr><td><code>Promise.allSettled()</code></td><td>Birden fazla isteğin hepsinin bitmesini bekler</td><td>Listeyi Temizleme</td></tr></tbody></table>
 
 Dizi fonksiyonlarından `pop()` her zaman dizinin son elemanını sildiği için, kullanıcının seçtiği belirli bir ürünü silmekte kullanılamaz. Frontend sürümünde bu yüzden `findIndex()` ve `splice()` kullanılmıştı; şimdiki sürümde silinen ürün dışındakiler `filter()` ile bırakılıyor.

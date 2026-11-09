@@ -1,4 +1,4 @@
-# 📐 Interface(Arayüz)
+# Interface(Arayüz)
 
 Listedeki her ürün, `Product` arayüzüne uyan bir nesnedir. Ürünler, bu arayüz kullanılarak tanımlanan bir nesne dizisinde tutulur.
 
@@ -15,7 +15,7 @@ export interface Product {
 }
 ```
 
-<table><thead><tr><th width="132.99993896484375">Alan</th><th width="110">Tip</th><th width="296.0001220703125">Açıklama</th><th>Değeri nereden gelir</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>Ürünün kalıcı kimliği (UUID). Ürün silinse de diğerlerinin kimliği değişmez</td><td>Veritabanı üretir</td></tr><tr><td><code>productName</code></td><td><code>string</code></td><td>Kullanıcının girdiği ürün adı</td><td>Giriş kutusundaki değer</td></tr><tr><td><code>quantity</code></td><td><code>number</code></td><td>Ürün adedi 1'den küçük olamaz</td><td>Yeni üründe veritabanı <code>1</code> verir</td></tr><tr><td><code>selected</code></td><td><code>boolean</code> (isteğe bağlı)</td><td>Seçim modunda ürünün işaretli olup olmadığı</td><td>Yalnızca ekranda; veritabanında yok</td></tr></tbody></table>
+<table><thead><tr><th width="122.59991455078125">Alan</th><th width="90">Tip</th><th width="252.0001220703125">Açıklama</th><th>Değeri nereden gelir</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>Ürünün kalıcı kimliği (UUID). Ürün silinse de diğerlerinin kimliği değişmez</td><td>Veritabanı üretir</td></tr><tr><td><code>productName</code></td><td><code>string</code></td><td>Kullanıcının girdiği ürün adı</td><td>Giriş kutusundaki değer</td></tr><tr><td><code>quantity</code></td><td><code>number</code></td><td>Ürün adedi 1'den küçük olamaz</td><td>Yeni üründe veritabanı <code>1</code> verir</td></tr><tr><td><code>selected</code></td><td><code>boolean</code> (isteğe bağlı)</td><td>Seçim modunda ürünün işaretli olup olmadığı</td><td>Yalnızca ekranda; veritabanında yok</td></tr></tbody></table>
 
 **Örnek:** Backend'den iki ürün geldiğinde dizi şu şekilde görünür:
 
@@ -44,11 +44,11 @@ products: Product[] = [];
 * Ürünlerin hangi alanlardan oluştuğunu tek yerde tanımlamak. Arayüz hem `app.ts` hem `product-api.ts` dosyasında kullanılır.
 * Bir alan eksikse, yanlış yazılmışsa ya da yanlış tipte kullanılmışsa hatayı uygulama çalışmadan önce görmek. TypeScript, kodu derlerken her ürünü bu şablona göre kontrol eder.
 
-| Yapılan hata                                       | TypeScript'in verdiği uyarı                              |
-| -------------------------------------------------- | -------------------------------------------------------- |
-| Var olmayan bir alan kullanıldı (`p.searchText`)   | `Property 'searchText' does not exist on type 'Product'` |
-| Sayı tipindeki adet alanında `.length` kullanıldı  | `Property 'length' does not exist on type 'number'`      |
-| `id` alanına sayı atanmaya çalışıldı               | `Type 'number' is not assignable to type 'string'`       |
+| Yapılan hata                                      | TypeScript'in verdiği uyarı                              |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| Var olmayan bir alan kullanıldı (`p.searchText`)  | `Property 'searchText' does not exist on type 'Product'` |
+| Sayı tipindeki adet alanında `.length` kullanıldı | `Property 'length' does not exist on type 'number'`      |
+| `id` alanına sayı atanmaya çalışıldı              | `Type 'number' is not assignable to type 'string'`       |
 
 * Metotların ne beklediğini, ne döndürdüğünü belirleyerek kod okunabilirliğini kolaylaştırmak.
 * Backend ile frontend arasındaki veri biçimini belgelemek. Backend'deki SQL sorguları `product_name` sütununu `productName` adıyla döndürür, böylece gelen veri bu arayüze uyar.
@@ -59,5 +59,5 @@ import { Product } from './models/product';
 ```
 
 {% hint style="info" %}
-Arayüz yalnızca TypeScript'in derleme sırasında kullandığı bir şablondur, tarayıcıya giden JavaScript'te yer almaz. Backend'in gerçekten bu biçimde veri göndermesini SQL sorgusundaki `AS "productName"` sağlar.
+Interface yalnızca TypeScript'in derleme sırasında kullandığı bir şablondur, tarayıcıya giden JavaScript'te yer almaz. Backend'in gerçekten bu biçimde veri göndermesini SQL sorgusundaki `AS "productName"` sağlar.
 {% endhint %}

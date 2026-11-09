@@ -29,5 +29,5 @@ description: >-
 
 #### Ek
 
-13. [Hatalar ve Çözümleri](hatalar-ve-cozumleri.md)
-14. [Sürüm Geçmişi](surum-gecmisi.md)
+13. [Hatalar ve Çözümleri](/broken/pages/HfOEsIEq3WN3OPGg3016)
+14. [Sürüm Geçmişi](/broken/pages/j3WS7jc65IsSw331IRKv)

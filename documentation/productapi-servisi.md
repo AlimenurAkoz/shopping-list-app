@@ -4,7 +4,7 @@ description: >-
   ayrıntılarını bilmez; ürün işlemleri için bu servisin fonksiyonlarını çağırır.
 ---
 
-# 🔌 ProductApi Servisi(product-api.ts)
+# ProductApi Servisi(product-api.ts)
 
 Dosya: [`product-api.ts`](https://github.com/AlimenurAkoz/shopping-list-app/blob/main/frontend/src/app/services/product-api.ts)
 
@@ -36,33 +36,14 @@ export const appConfig: ApplicationConfig = {
 * `provideHttpClient()`, `HttpClient`'ı uygulama genelinde kullanılabilir hale getirir. Eklenmezse uygulama açılırken `NullInjectorError: No provider for HttpClient` hatası verir.
 * `main.ts`, bu `appConfig` nesnesini `bootstrapApplication()` fonksiyonuna verir; yani kayıt uygulama başlarken bir kez yapılır.
 
-## Servisin Kodu
-
 ```ts
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Product } from '../models/product';
-
 @Injectable({
   providedIn: 'root',
 })
 export class ProductApi {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/api/products';
-
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
-  }
-  createProduct(productName: string): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, { productName });
-  }
-  updateProduct(id: string, quantity: number): Observable<Product> {
-    return this.http.patch<Product>(`${this.apiUrl}/${id}`, { quantity });
-  }
-  deleteProduct(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  ...
 }
 ```
 
@@ -72,16 +53,16 @@ export class ProductApi {
 
 ## Fonksiyonlar
 
-<table><thead><tr><th width="190">Fonksiyon</th><th width="250">İstek</th><th width="190">Gönderilen gövde</th><th>Dönen değer</th></tr></thead><tbody><tr><td><code>getProducts()</code></td><td><code>GET /api/products</code></td><td>—</td><td>Ürün dizisi</td></tr><tr><td><code>createProduct(name)</code></td><td><code>POST /api/products</code></td><td><code>{"productName":"Elma"}</code></td><td>Eklenen ürün</td></tr><tr><td><code>updateProduct(id, q)</code></td><td><code>PATCH /api/products/{id}</code></td><td><code>{"quantity":4}</code></td><td>Güncellenen ürün</td></tr><tr><td><code>deleteProduct(id)</code></td><td><code>DELETE /api/products/{id}</code></td><td>—</td><td>Yok (<code>void</code>)</td></tr></tbody></table>
+<table><thead><tr><th width="142">Fonksiyon</th><th width="171.5999755859375">İstek</th><th width="153.199951171875">Gönderilen gövde</th><th>Dönen değer</th></tr></thead><tbody><tr><td><code>getProducts()</code></td><td><code>GET /api/products</code></td><td>—</td><td>Ürün dizisi</td></tr><tr><td><code>createProduct(name)</code></td><td><code>POST /api/products</code></td><td><code>{"productName":"Elma"}</code></td><td>Eklenen ürün</td></tr><tr><td><code>updateProduct(id, q)</code></td><td><code>PATCH /api/products/{id}</code></td><td><code>{"quantity":4}</code></td><td>Güncellenen ürün</td></tr><tr><td><code>deleteProduct(id)</code></td><td><code>DELETE /api/products/{id}</code></td><td>—</td><td>Yok (<code>void</code>)</td></tr></tbody></table>
 
-* `get<Product[]>`: Köşeli parantezdeki tip, yanıtın biçimini TypeScript'e bildirir. Bu bir çalışma zamanı kontrolü değildir; backend'in gerçekten bu biçimde veri göndermesi SQL sorgularıyla sağlanır.
+* `get<Product[]>`: Köşeli parantezdeki tip, yanıtın biçimini TypeScript'e bildirir.&#x20;
 * `{ productName }`: `{ productName: productName }` yazımının kısaltmasıdır. `HttpClient` nesneyi JSON metnine çevirir ve `Content-Type: application/json` başlığını ekler. Backend bu alanı `body.productName` olarak okur.
 * `` `${this.apiUrl}/${id}` ``: Ters tırnaklı yazım (template literal) ile adresin sonuna ürünün kimliği eklenir: `/api/products/1d595004-...`.
 * `delete<void>`: Backend başarılı silmede `204` ile boş yanıt döndürdüğü için beklenen bir değer yoktur.
 
 ## Observable ve firstValueFrom
 
-`HttpClient`'ın fonksiyonları isteği hemen göndermez, bir `Observable` döndürür. `Observable`, "ileride gelecek değer(ler)" demektir ve istek ancak birisi ona abone olduğunda (subscribe) gönderilir.
+`HttpClient`'ın fonksiyonları isteği hemen göndermez, bir `Observable` döndürür. `Observable`, "ileride gelecek değerler" demektir ve istek ancak birisi ona abone olduğunda (subscribe) gönderilir.
 
 Bileşende (`app.ts`) zaten `async/await` kullanıldığı için `Observable`, `rxjs` kütüphanesindeki `firstValueFrom()` ile `Promise`'e çevrilir:
 
@@ -90,7 +71,7 @@ const newProduct = await firstValueFrom(this.api.createProduct(name));
 ```
 
 * `firstValueFrom()` `Observable`'a abone olur, böylece istek gönderilir.
-* İlk değer (sunucunun yanıtı) gelince `Promise` çözülür ve `await` o değeri verir.
+* Sunucunun yanıtı gelince `Promise` çözülür ve `await` o değeri verir.
 * HTTP isteği tek bir yanıt ürettiği için ilk değeri almak yeterlidir.
 * Sunucu hata kodu (`400`, `404`, `409`, `500`) döndürürse veya sunucuya ulaşılamazsa `Promise` reddedilir ve `catch` bloğuna `HttpErrorResponse` düşer.
 
@@ -106,11 +87,11 @@ const newProduct = await firstValueFrom(this.api.createProduct(name));
 }
 ```
 
-<table><thead><tr><th width="110">Kod</th><th width="260">Anlamı</th><th>Bileşende yapılan</th></tr></thead><tbody><tr><td><code>409</code></td><td>Ürün veritabanında zaten var</td><td>Liste yenilenir, "Bu ürün listede zaten var." gösterilir</td></tr><tr><td><code>404</code></td><td>Ürün bulunamadı (başka yerden silinmiş)</td><td>Adet değiştirmede liste yenilenir; silmede ürün ekrandan da kaldırılır</td></tr><tr><td><code>400</code></td><td>Geçersiz istek (boş ad, geçersiz adet)</td><td>Frontend kontrolleri bu duruma gelmeden önler</td></tr><tr><td><code>500</code></td><td>Sunucu veya veritabanı hatası</td><td>"Ürün eklenemedi." gibi genel bildirim</td></tr><tr><td><code>0</code></td><td>Sunucuya ulaşılamadı (API kapalı)</td><td>Genel bildirim, örneğin "Ürünler yüklenemedi."</td></tr></tbody></table>
+<table><thead><tr><th width="65.199951171875">Kod</th><th width="239.20001220703125">Anlamı</th><th>Bileşende yapılan</th></tr></thead><tbody><tr><td><code>409</code></td><td>Ürün veritabanında zaten var</td><td>Liste yenilenir, "Bu ürün listede zaten var." gösterilir</td></tr><tr><td><code>404</code></td><td>Ürün bulunamadı (başka yerden silinmiş)</td><td>Adet değiştirmede liste yenilenir, silmede ürün ekrandan da kaldırılır</td></tr><tr><td><code>400</code></td><td>Geçersiz istek (boş ad, geçersiz adet)</td><td>Frontend kontrolleri bu duruma gelmeden önler</td></tr><tr><td><code>500</code></td><td>Sunucu veya veritabanı hatası</td><td>"Ürün eklenemedi." gibi genel bildirim</td></tr></tbody></table>
 
 ## Test Dosyası
 
-`product-api.spec.ts`, CLI tarafından oluşturulmuş ve değiştirilmemiştir:
+`product-api.spec.ts`, CLI tarafından oluşturuldu ve değiştirilmedi:
 
 ```ts
 describe('ProductApi', () => {

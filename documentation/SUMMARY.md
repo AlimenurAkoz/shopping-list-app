@@ -7,20 +7,22 @@
 
 ## Frontend
 
-* [📐 Interface(Arayüz)](interface-arayuz.md)
-* [🔄 Değişkenler ve Veri Akışı](degiskenler-ve-veri-akisi.md)
-* [⚙️ Özellikler ve Metotlar](ozellikler-ve-metotlar.md)
-* [🔌 ProductApi Servisi(product-api.ts)](productapi-servisi.md)
+* [Interface(Arayüz)](interface-arayuz.md)
+* [Değişkenler ve Veri Akışı](degiskenler-ve-veri-akisi.md)
+* [Özellikler ve Metotlar](ozellikler-ve-metotlar.md)
+* [ProductApi Servisi(product-api.ts)](productapi-servisi.md)
 
 ## Backend
 
-* [🗄️ Veritabanı(schema.sql)](veritabani.md)
-* [🖥️ Sunucu(server.js)](sunucu.md)
-* [🔗 Veritabanı Bağlantısı(db.js)](veritabani-baglantisi.md)
-* [📡 CRUD Servisleri(products.js)](crud-servisleri.md)
-* [🧪 API Testleri](api-testleri.md)
+* [Veritabanı(schema.sql)](veritabani.md)
+* [Sunucu(server.js)](sunucu.md)
+* [Veritabanı Bağlantısı(db.js)](veritabani-baglantisi.md)
+* [CRUD Servisleri(products.js)](crud-servisleri.md)
+* [API Testleri](api-testleri.md)
 
 ## Ek
 
-* [🐞 Hatalar ve Çözümleri](hatalar-ve-cozumleri.md)
-* [🏷️ Sürüm Geçmişi](surum-gecmisi.md)
+***
+
+* [Hatalar ve Çözümleri](hatalar-ve-cozumleri.md)
+* [Sürüm Geçmişi](surum-gecmisi.md)

@@ -4,7 +4,7 @@ description: >-
   kutusuna ne yazılmış) App bileşenindeki birkaç değişkende tutulur.
 ---
 
-# 🔄 Değişkenler ve Veri Akışı
+# Değişkenler ve Veri Akışı
 
 [`app.html`](https://github.com/AlimenurAkoz/shopping-list-app/blob/main/frontend/src/app/app.html), bu değişkenlere bağlıdır. Bir değişken değiştiğinde Angular ekranı günceller. Ekranı elle değiştiren bir kod yoktur.
 
@@ -12,7 +12,7 @@ description: >-
 
 `app.ts`
 
-<table><thead><tr><th width="146.79998779296875">Değişken</th><th width="154.5999755859375">Tip</th><th width="93.800048828125">Başlangıç</th><th>Görevi</th></tr></thead><tbody><tr><td><code>objectName</code></td><td><code>string</code></td><td><code>''</code></td><td>Ürün ekleme kutusuna yazılan metin</td></tr><tr><td><code>products</code></td><td><code>Product[]</code></td><td><code>[]</code></td><td>Ekranda gösterilen ürünlerin dizisi. Veritabanındaki listenin tarayıcıdaki kopyasıdır</td></tr><tr><td><code>isOpen</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Seçim modunun açık olup olmadığı</td></tr><tr><td><code>searchProduct</code></td><td><code>string</code></td><td><code>''</code></td><td>Arama kutusuna yazılan metin</td></tr><tr><td><code>highlightedId</code></td><td><code>string | null</code></td><td><code>null</code></td><td>Vurgulanan ürünün kimliği (UUID), vurgu yoksa <code>null</code></td></tr></tbody></table>
+<table><thead><tr><th width="143.5999755859375">Değişken</th><th width="143.39996337890625">Tip</th><th width="88.2000732421875">Başlangıç</th><th>Görevi</th></tr></thead><tbody><tr><td><code>objectName</code></td><td><code>string</code></td><td><code>''</code></td><td>Ürün ekleme kutusuna yazılan metin</td></tr><tr><td><code>products</code></td><td><code>Product[]</code></td><td><code>[]</code></td><td>Ekranda gösterilen ürünlerin dizisi. Veritabanındaki listenin tarayıcıdaki kopyasıdır</td></tr><tr><td><code>isOpen</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Seçim modunun açık olup olmadığı</td></tr><tr><td><code>searchProduct</code></td><td><code>string</code></td><td><code>''</code></td><td>Arama kutusuna yazılan metin</td></tr><tr><td><code>highlightedId</code></td><td><code>string | null</code></td><td><code>null</code></td><td>Vurgulanan ürünün kimliği (UUID), vurgu yoksa <code>null</code></td></tr></tbody></table>
 
 #### Yardımcı değişkenler
 
@@ -30,9 +30,9 @@ Frontend sürümündeki `counter` (bir sonraki ürünün sıra numarası) kaldı
 
 Bazı değerler ayrı bir değişkende saklanmaz. İhtiyaç duyulduğunda diziden yeniden hesaplanır.
 
-<table><thead><tr><th width="204">Değer</th><th width="221.800048828125">Hesaplayan</th><th>Ekranda nerede</th></tr></thead><tbody><tr><td>Toplam ürün adedi</td><td><code>totalQuantity()</code></td><td>Alt bardaki "Toplam Ürün Adedi"</td></tr><tr><td>En az bir ürün seçili mi?</td><td><code>isSelected()</code></td><td>"Seçilenleri Sil" butonunun aktif/pasif durumu</td></tr><tr><td>Aramaya uyan ürünler</td><td><code>filterProducts()</code></td><td>Tablo satırları</td></tr><tr><td>Satırın sıra numarası</td><td><code>$index + 1</code></td><td>Tablonun "Sıra" sütunu</td></tr><tr><td>Liste boş mu?</td><td><code>products.length == 0</code></td><td>"Eksik Yok" ekranı</td></tr></tbody></table>
+<table><thead><tr><th width="204">Değer</th><th width="200.2000732421875">Hesaplayan</th><th>Ekranda nerede</th></tr></thead><tbody><tr><td>Toplam ürün adedi</td><td><code>totalQuantity()</code></td><td>Alt bardaki "Toplam Ürün Adedi"</td></tr><tr><td>En az bir ürün seçili mi?</td><td><code>isSelected()</code></td><td>"Seçilenleri Sil" butonunun aktif/pasif durumu</td></tr><tr><td>Aramaya uyan ürünler</td><td><code>filterProducts()</code></td><td>Tablo satırları</td></tr><tr><td>Satırın sıra numarası</td><td><code>$index + 1</code></td><td>Tablonun "Sıra" sütunu</td></tr><tr><td>Liste boş mu?</td><td><code>products.length == 0</code></td><td>"Eksik Yok" ekranı</td></tr></tbody></table>
 
-**Örnek:** Toplam adedi ayrı bir değişkende tutup her işlemde artırmak/azaltmak, silme veya temizleme gibi bir işlemde güncellemenin unutulmasına açıktır. `totalQuantity()` her çağrıldığında toplamı diziden baştan hesapladığı için bu sorun oluşmaz.
+**Örnek:** Toplam adedi ayrı bir değişkende tutup her işlemde artırmak/azaltmak, silme veya temizleme gibi bir işlemde güncellemenin unutulma ihtimaline karşı, `totalQuantity()` her çağrıldığında toplamı diziden baştan hesaplanır.
 
 ## Veri akışı
 
@@ -95,9 +95,9 @@ async loadProducts() {
 3. Gelen dizi `products` değişkenine atanır, ekran güncellenir.
 4. Sunucu veya veritabanı kapalıysa "Ürünler yüklenemedi." bildirimi gösterilir ve liste boş kalır.
 
-`constructor` `async` olamayacağı için yükleme ayrı bir metotta yapılır. `loadProducts()` başka yerlerde de "ekranı veritabanının gerçek haliyle eşitle" amacıyla kullanılır, örneğin toplu silmeden sonra.
+`constructor` `async` olamayacağı için yükleme ayrı bir metotta yapılır. `loadProducts()` başka yerlerde de "ekranı veritabanının gerçek haliyle eşitle" amacıyla kullanılır.
 
-Veritabanında `selected` alanı olmadığı için sunucudan gelen ürünlerde hiçbir ürün seçili değildir. Bu yüzden frontend sürümündeki `closeSelect()` çağrısına gerek kalmadı.
+Veritabanında `selected` alanı olmadığı için sunucudan gelen ürünlerde hiçbir ürün seçili değildir. Bu yüzden [frontend sürümündeki](surum-gecmisi.md) `closeSelect()` çağrısına gerek kalmaz.
 
 ### Bekleme gerektiren işlemler(Asenkron İşlemler)
 

@@ -1,10 +1,10 @@
 ---
 description: >-
-  db.js, .env dosyasındaki bilgilerle PostgreSQL bağlantı havuzunu oluşturur ve
-  servislerin kullanması için dışa aktarır.
+  db.js, .env dosyasındaki bilgilerle PostgreSQL bağlantı havuzunu(pool)
+  oluşturur ve servislerin kullanması için dışa aktarır.
 ---
 
-# 🔗 Veritabanı Bağlantısı(db.js)
+# Veritabanı Bağlantısı(db.js)
 
 Dosya: [`db.js`](https://github.com/AlimenurAkoz/shopping-list-app/blob/main/backend/db.js)
 
@@ -21,12 +21,12 @@ export default pool;
 ```
 
 * `import {Pool} from 'pg'`: `pg` paketinden `Pool` sınıfı alınır. Ad büyük harfle başlar; `pool` yazılırsa alttaki `const pool` değişkeniyle çakışır.
-* `process.env.DB_HOST`: Değer `.env` dosyasından okunur. Tırnak içinde yazılırsa (`'process.env.DB_HOST'`) değişken olarak değil düz metin olarak okunur ve sunucu adı gerçekten "process.env.DB_HOST" olur.
-* `export default pool`: Dosyanın ana değeri olarak havuzu dışa aktarır. İçe aktaran taraf süslü parantez kullanmaz: `import pool from './db.js'`.
+* `process.env.DB_HOST`: Değer `.env` dosyasından okunur. Tırnak içinde yazılırsa (`'process.env.DB_HOST'`) değişken olarak değil düz metin olarak okunur ve sunucu adı gerçekten "process.env.DB\_HOST" olur.
+* `export default pool`: Dosyanın ana değeri olarak pool'u dışa aktarır. İçe aktaran taraf süslü parantez kullanmaz: `import pool from './db.js'`.
 
 ## Bağlantı havuzu (Pool)
 
-Veritabanına bağlantı açmak (ağ bağlantısı, kimlik doğrulama) bir sorgudan çok daha uzun sürer. Havuz, açtığı bağlantıları sorgudan sonra kapatmaz, saklar ve sonraki sorgularda yeniden kullanır. Aynı anda birden fazla istek gelirse her birine ayrı bağlantı verir.
+Veritabanına bağlantı açmak (ağ bağlantısı, kimlik doğrulama) bir sorgudan çok daha uzun sürer. Pool, açtığı bağlantıları sorgudan sonra kapatmaz, saklar ve sonraki sorgularda yeniden kullanır. Aynı anda birden fazla istek gelirse her birine ayrı bağlantı verir.
 
 * `new Pool(...)` satırı bağlantı açmaz, yalnızca ayarları saklar. İlk bağlantı ilk sorguda (`pool.query(...)`) açılır. Bu yüzden veritabanı kapalıyken sunucu yine başlar; hata ilk istekte görülür.
 * Modül yalnızca bir kez çalışır. `db.js` kaç dosyada içe aktarılırsa aktarılsın tek bir havuz oluşur.
@@ -43,7 +43,7 @@ DB_NAME=shopping_list
 
 `.env` dosyasındaki değerler metin olarak okunur; `process.env.DB_PORT` sayı değil `"5433"` metnidir. `pg` bunu kendisi sayıya çevirir.
 
-{% hint style="warning" %}
+{% hint style="info" %}
 `db.js`, yüklendiği anda `process.env` değerlerini okur. Bu yüzden `server.js` dosyasında `import "dotenv/config"` satırı, `db.js`'i yükleyen `products.js` içe aktarımından önce gelmelidir. Sıra ters olursa değerler `undefined` olur ve bağlantı yanlış adrese gider.
 {% endhint %}
 
@@ -71,4 +71,4 @@ if (req.method === 'GET' && req.url === '/api/health') {
 2. İkinci bir terminalde `docker stop shoppinglist_postgres` ile veritabanı durduruldu. Sayfa yenilenince `500` yanıtı geldi, terminalde `ECONNREFUSED` hatası görüldü.
 3. `docker start shoppinglist_postgres` ile yeniden başlatılınca yanıt tekrar `ok` oldu.
 
-`SELECT NOW()` sorgusu tabloya dokunmaz, yalnızca veritabanından saati ister; bağlantıyı denemek için yeterlidir.
+`SELECT NOW()` sorgusu tabloya dokunmaz, yalnızca veritabanından saati ister, bağlantıyı denemek için yeterlidir.
